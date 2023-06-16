@@ -5,6 +5,7 @@ from typing import Dict, Union
 LettersCounter = Dict[str, int]
 TrieNode = Dict[str, str]
 
+
 trie_path = "trie.json"
 
 

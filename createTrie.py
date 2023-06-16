@@ -4,14 +4,19 @@ efficient searching. See https://en.wikipedia.org/wiki/Trie
 """
 
 import json
+from typing import Tuple, Dict, Any
+
+
+WordList = list[Tuple[str, str]]
+TrieNode = Dict[str, Any]
+
+trie: TrieNode = {}
 
 with open('scrabbleWords.json') as words_file:
-    word_list = list(json.load(words_file).items())
-
-trie = {}
+    word_list: WordList = list(json.load(words_file).items())
 
 for word, definition in word_list:
-    node = trie
+    node: TrieNode = trie
     for index, letter in enumerate(word):
         is_word = index+1 == len(word)
         if letter not in node:
