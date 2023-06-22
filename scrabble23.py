@@ -69,8 +69,10 @@ class WordFinder():
                         chunk = row[chunk_start_position:chunk_length +
                                     chunk_start_position]
                         if ''.join(chunk) != "":  # if chunk not empty
-                            self.find_words_in_chunk(self.trie, 0, chunk,
-                                                     self.user_letters_counter)
+                            # and chunk not got any letters before it, (see test_find_words_no_nonsense_letter_wraps())
+                            if chunk_start_position == 0 or row[chunk_start_position-1] == "":
+                                self.find_words_in_chunk(self.trie, 0, chunk,
+                                                         self.user_letters_counter)
         return self.found_words
 
     def _find_words(

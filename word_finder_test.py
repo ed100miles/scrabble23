@@ -38,3 +38,9 @@ class TestWordFinder(unittest.TestCase):
             self.test_board[key] = val
         found_words = WordFinder('ES', self.test_board).find_words()
         assert "FOXES" in found_words
+
+    def test_find_words_no_nonsense_letter_wraps(self):
+        for key, val in {94: 'D', 95: 'O', 96: 'N', 97: 'E'}.items():
+            self.test_board[key] = val
+        found_words = WordFinder('EDING', self.test_board).find_words()
+        assert "NEEDING" not in found_words
