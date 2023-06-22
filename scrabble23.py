@@ -39,7 +39,7 @@ class WordFinder():
                             letters_counter: LettersCounter):
         letters_counter_copy = letters_counter.copy()
         if 'word' in node and self.word_has_chunk_letters(node["word"], chunk):
-            if node['word'] != ''.join(chunk):
+            if node['word'] != ''.join(chunk) and node_depth == len(chunk):
                 self.found_words[node['word']] = node['definition']
         if node_depth >= len(chunk):
             return
@@ -69,8 +69,11 @@ class WordFinder():
                         chunk = row[chunk_start_position:chunk_length +
                                     chunk_start_position]
                         if ''.join(chunk) != "":  # if chunk not empty
-                            # and chunk not got any letters before it, (see test_find_words_no_nonsense_letter_wraps())
-                            if chunk_start_position == 0 or row[chunk_start_position-1] == "":
+                            # and chunk not got any letters before or after it
+                            # see test_find_words_no_nonsensiffying_letters_before/after()
+                            if ((chunk_start_position == 0 or row[chunk_start_position-1] == "")
+                                    and (chunk_start_position+len(chunk) == 15
+                                         or row[chunk_start_position+len(chunk)] == "")):
                                 self.find_words_in_chunk(self.trie, 0, chunk,
                                                          self.user_letters_counter)
         return self.found_words

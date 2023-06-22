@@ -27,9 +27,9 @@ def test():
 
 @app.post("/")
 async def read_root(data: PostData):
-    # print(data['board'])
-    # clean_board = {k: v for k, v in data['board'].items() if v != ""}
-    # print(clean_board)
+    if True:
+        clean_board = {k: v for k, v in data['board'].items() if v != ""}
+        print(clean_board)
     board = ["" for _ in range(225)]
     for index, value in data['board'].items():
         board[index] = value

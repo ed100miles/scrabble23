@@ -39,8 +39,28 @@ class TestWordFinder(unittest.TestCase):
         found_words = WordFinder('ES', self.test_board).find_words()
         assert "FOXES" in found_words
 
-    def test_find_words_no_nonsense_letter_wraps(self):
+    def test_find_words_no_nonsensiffying_letters_before(self):
         for key, val in {94: 'D', 95: 'O', 96: 'N', 97: 'E'}.items():
             self.test_board[key] = val
         found_words = WordFinder('EDING', self.test_board).find_words()
         assert "NEEDING" not in found_words
+
+    def test_find_words_no_nonsensiffying_letters_after(self):
+        for key, val in {93: 'A', 94: 'R', 95: 'T', 96: 'I', 97: 'S', 98: 'T', 99: 'S'}.items():
+            self.test_board[key] = val
+        found_words = WordFinder('F', self.test_board).find_words()
+        assert "FART" not in found_words
+
+    # TODO:
+    # def test_find_words_no_nonsensiffying_letters_adjacent(self):
+    #     for key, val in {93: 'A', 94: 'R', 95: 'T', 96: 'I', 97: 'S', 98: 'T', 99: 'S',
+    #                      113: 'I', 128: 'P', 143: 'S', 144: 'O'}.items():
+    #         self.test_board[key] = val
+    #     found_words = WordFinder('MITH', self.test_board).find_words()
+    #     assert "SMITH" not in found_words
+
+    def test_find_words_no_nested_words(self):
+        for key, val in {94: 'C', 95: 'H', 96: 'E', 97: 'E', 98: 'S', 99: 'E', 100: 'S'}.items():
+            self.test_board[key] = val
+        found_words = WordFinder('AT', self.test_board).find_words()
+        assert "CHEESE" not in found_words
