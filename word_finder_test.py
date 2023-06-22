@@ -31,5 +31,10 @@ class TestWordFinder(unittest.TestCase):
         for key, val in {94: 'O', 95: 'C', 96: 'T', 97: 'O', 98: 'P', 99: 'U', 100: 'S'}.items():
             self.test_board[key] = val
         found_words = WordFinder('AT', self.test_board).find_words()
-        print(found_words)
         assert "OCTOPUS" not in found_words
+
+    def test_find_words_append_existing(self):
+        for key, val in {94: 'F', 95: 'O', 96: 'X'}.items():
+            self.test_board[key] = val
+        found_words = WordFinder('ES', self.test_board).find_words()
+        assert "FOXES" in found_words

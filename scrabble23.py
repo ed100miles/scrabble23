@@ -39,19 +39,14 @@ class WordFinder():
                             letters_counter: LettersCounter):
         letters_counter_copy = letters_counter.copy()
         if 'word' in node and self.word_has_chunk_letters(node["word"], chunk):
-            self.found_words[node['word']] = node['definition']
+            if node['word'] != ''.join(chunk):
+                self.found_words[node['word']] = node['definition']
         if node_depth >= len(chunk):
             return
         # if there's a letter at this index of the chunk, we have to use it
         if chunk[node_depth] != '' and chunk[node_depth] in node:
-            if 'word' in node[chunk[node_depth]]:
-                # if user letters in word (its not just the chunk is already a word) save it:
-                if node[chunk[node_depth]]['word'] != ''.join(chunk):
-                    self.found_words[node[chunk[node_depth]]['word']
-                                     ] = node[chunk[node_depth]]['definition']
-            else:
-                self.find_words_in_chunk(node[chunk[node_depth]],
-                                         node_depth+1, chunk, letters_counter_copy)
+            self.find_words_in_chunk(node[chunk[node_depth]],
+                                     node_depth+1, chunk, letters_counter_copy)
         else:  # else we iterate through users remaining letters and recursively call find_words()
             for letter in letters_counter:
                 # remove 0 count letters from counter to speed up (debateable)
