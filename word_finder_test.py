@@ -26,3 +26,10 @@ class TestWordFinder(unittest.TestCase):
     def test_find_words_with_not_empty_board(self):
         self.test_board[0] = "C"
         assert "CAT" in WordFinder('AT', self.test_board).find_words()
+
+    def test_find_words_not_existing_words(self):
+        for key, val in {94: 'O', 95: 'C', 96: 'T', 97: 'O', 98: 'P', 99: 'U', 100: 'S'}.items():
+            self.test_board[key] = val
+        found_words = WordFinder('AT', self.test_board).find_words()
+        print(found_words)
+        assert "OCTOPUS" not in found_words

@@ -45,20 +45,22 @@ class WordFinder():
         # if there's a letter at this index of the chunk, we have to use it
         if chunk[node_depth] != '' and chunk[node_depth] in node:
             if 'word' in node[chunk[node_depth]]:
-                self.found_words[node[chunk[node_depth]]['word']
-                                 ] = node[chunk[node_depth]]['definition']
+                # if user letters in word (its not just the chunk is already a word) save it:
+                if node[chunk[node_depth]]['word'] != ''.join(chunk):
+                    self.found_words[node[chunk[node_depth]]['word']
+                                     ] = node[chunk[node_depth]]['definition']
             else:
                 self.find_words_in_chunk(node[chunk[node_depth]],
                                          node_depth+1, chunk, letters_counter_copy)
-        # else we iterate through users remaining letters and recursively call find_words()
-        for letter in letters_counter:
-            # remove 0 count letters from counter to speed up (debateable)
-            if letters_counter[letter] == 0:
-                del letters_counter_copy[letter]
-            if letters_counter[letter] > 0 and letter in node:
-                letters_counter_copy[letter] -= 1
-                self.find_words_in_chunk(node[letter], node_depth+1,
-                                         chunk, letters_counter_copy)
+        else:  # else we iterate through users remaining letters and recursively call find_words()
+            for letter in letters_counter:
+                # remove 0 count letters from counter to speed up (debateable)
+                if letters_counter[letter] == 0:
+                    del letters_counter_copy[letter]
+                if letters_counter[letter] > 0 and letter in node:
+                    letters_counter_copy[letter] -= 1
+                    self.find_words_in_chunk(node[letter], node_depth+1,
+                                             chunk, letters_counter_copy)
 
     def chunk_find(self):
         """Searches through the board in sliding chunks, looking for words"""
